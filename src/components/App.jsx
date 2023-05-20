@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useSelector } from 'react-redux';
 import React from 'react';
 import { nanoid } from 'nanoid';
 import Form from './Form';
@@ -8,6 +8,8 @@ import List from './ContactList';
 import { useEffect } from 'react';
 
 function Phonebook() {
+  const store = useSelector(store => store.storage);
+  console.log(store);
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
   const addContact = (name, number, filter) => {
@@ -47,7 +49,7 @@ function Phonebook() {
   }, [contacts]);
   useEffect(() => {
     const lItem = JSON.parse(localStorage.getItem('contact'));
-    console.log(lItem);
+
     lItem ? setContacts(lItem) : setContacts([]);
   }, []);
 
@@ -57,7 +59,7 @@ function Phonebook() {
         <li>
           <form action="">
             <h1>Phonebook</h1>
-            <Form addContact={addContact} />
+            <Form />
           </form>
         </li>
         <li>
