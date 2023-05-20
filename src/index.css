@@ -84,6 +84,7 @@ code {
 .li-con {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: space-between;
   gap: 8px;
   width: 400px;
   height: 30px;
