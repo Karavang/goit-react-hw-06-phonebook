@@ -1,18 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-export default function Filter({ filter }) {
+import { useDispatch } from 'react-redux';
+import { filterContact } from 'redux/contactsSlice';
+
+export default function Filter() {
+  const dispatch = useDispatch();
+
   return (
     <input
       type="text"
       name="search"
       className="form-control"
       placeholder="Search by name"
-      onChange={e => {
-        filter(e.target.value);
-      }}
+      onChange={e => dispatch(filterContact(e.target.value))}
     />
   );
 }
-Filter.propTypes = {
-  filter: PropTypes.func,
-};

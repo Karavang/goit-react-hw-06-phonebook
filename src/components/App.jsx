@@ -1,75 +1,20 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import React from 'react';
-import { nanoid } from 'nanoid';
-import Form from './Form';
-import Filter from './Filter';
 import List from './ContactList';
-import { useEffect } from 'react';
+import Filter from './Filter';
+import Form from './Form';
 
 function Phonebook() {
-  const store = useSelector(store => store.storage);
-  console.log(store);
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
-  const addContact = (name, number, filter) => {
-    const findElement = contacts.find(e => {
-      return e.name.toLowerCase().includes(name.toLowerCase());
-    });
-
-    if (findElement) {
-      alert('Таке вже є');
-    } else {
-      const newContact = {
-        id: nanoid(),
-        name: name,
-        number: number,
-      };
-
-      setContacts([...contacts, newContact]);
-      setFilter(filter);
-    }
-  };
-  const removeContacts = id => {
-    setContacts(
-      contacts.filter(e => {
-        return e.id !== id;
-      })
-    );
-  };
-
-  function editFilter(value) {
-    setFilter(value);
-  }
-
-  useEffect(() => {
-    if (contacts.length !== 0) {
-      localStorage.setItem('contact', JSON.stringify(contacts));
-    }
-  }, [contacts]);
-  useEffect(() => {
-    const lItem = JSON.parse(localStorage.getItem('contact'));
-
-    lItem ? setContacts(lItem) : setContacts([]);
-  }, []);
-
   return (
     <div className="all-pos">
-      <ul className="flexator">
+      <ul className="flexator g-20">
         <li>
-          <form action="">
-            <h1>Phonebook</h1>
-            <Form />
-          </form>
+          <h2>Phonebook</h2>
+          <Form />
         </li>
+
         <li>
-          <h1>Contacts</h1>
-          <Filter filter={editFilter} />
-          <List
-            contacts={contacts}
-            filter={filter}
-            removeContacts={removeContacts}
-          />
+          <h2>Contacts</h2>
+          <Filter />
+          <List />
         </li>
       </ul>
     </div>

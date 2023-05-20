@@ -1,47 +1,37 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { getContacts, getFilter, removeContact } from 'redux/contactsSlice';
+import { MdOutlineDeleteOutline } from 'react-icons/md';
 
-export default function List({ contacts, filter, removeContacts }) {
+export default function List() {
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const dispatch = useDispatch();
+
   const filteredContacts = contacts.filter(contact =>
-    contact.name.includes(filter)
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  const handleDeleteContact = id => {
+    dispatch(removeContact(id));
+  };
 
   return (
     <div className="scrollable-list">
       <ul className="listContacts">
-        {filter
-          ? filteredContacts.map(e => (
-              <li key={e.id}>
-                <b>{e.name}</b> - {e.number}
-                <img
-                  className="bin"
-                  src="https://cdn-icons-png.flaticon.com/512/93/93951.png?w=826&t=st=1680885338~exp=1680885938~hmac=e3ff59ddc6694a6128bf23177a414fccd8e9dbe6d5be431c2bfc65f90cce7f51"
-                  alt=""
-                  onClick={() => {
-                    removeContacts(e.id);
-                  }}
-                />
-              </li>
-            ))
-          : contacts.map(e => (
-              <li key={e.id}>
-                <b>{e.name}</b> - {e.number}
-                <img
-                  className="bin"
-                  src="https://cdn-icons-png.flaticon.com/512/93/93951.png?w=826&t=st=1680885338~exp=1680885938~hmac=e3ff59ddc6694a6128bf23177a414fccd8e9dbe6d5be431c2bfc65f90cce7f51"
-                  alt=""
-                  onClick={() => {
-                    removeContacts(e.id);
-                  }}
-                />
-              </li>
-            ))}
+        {filteredContacts.map(({ id, name, number }) => (
+          <li key={id} className="li-con">
+            <b>{name}</b> - {number}
+            <button
+              className="btn btn-primary add-contact"
+              type="button"
+              onClick={() => handleDeleteContact(id)}
+            >
+              <MdOutlineDeleteOutline />
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
 }
-List.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  filter: PropTypes.string.isRequired,
-  removeContacts: PropTypes.func.isRequired,
-};
