@@ -8,6 +8,7 @@ export default function Form() {
   const [number, setNumber] = useState('');
 
   const contacts = useSelector(getContacts);
+
   const dispatch = useDispatch();
 
   const handleFormSubmit = e => {
